@@ -1,57 +1,148 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <title>Темна Вежа: Подорож</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MystQuiz</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <style>
-        body {
-            transition: background-image 1s ease;
-            height: 100vh;
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-    <div>
-        <button onclick="changeScene('left')">Повернути на ліво</button>
-        <button onclick="changeScene('right')">Повернути на право</button>
-        <button onclick="changeScene('random')">Підкинути монету</button>
+<header>
+    <h1>MystQuiz</h1>
+</header>
+
+<div class="main-container" id="main">
+    <!-- Гаррі Поттер -->
+    <section class="quiz-section">
+        <img src="https://upload.wikimedia.org/wikipedia/en/d/d7/Harry_Potter_character_poster.jpg" alt="Гаррі Поттер">
+        <button class="join-btn" data-quiz="harry">Приєднатися</button>
+        <div class="content">
+            <h2>Гаррі Поттер</h2>
+            <p>Хлопчик-чарівник, який боровся з Волдемортом і врятував магічний світ.</p>
+        </div>
+    </section>
+</div>
+<div class="quiz-container" id="quiz-container">
+    <div class="quiz-background">
+        <h2 id="quiz-title">Тест</h2>
+        <div class="quiz-content">
+            <div id="question" class="question">Питання...</div>
+            <div class="answers">
+                <button class="answer" onclick="nextQuestion(0)">Відповідь 1</button>
+                <button class="answer" onclick="nextQuestion(1)">Відповідь 2</button>
+                <button class="answer" onclick="nextQuestion(2)">Відповідь 3</button>
+            </div>
+        </div>
+        </div>
     </div>
-
     <script>
-        const scenes = {
-            left: 'url("left_path_image.jpg")',
-            right: 'url("right_path_image.jpg")',
-            random: [
-                'url("left_path_image.jpg")',
-                'url("right_path_image.jpg")',
-                'url("forest_image.jpg")',
-                'url("castle_image.jpg")'
-            ]
-        };
-
-        function changeScene(direction) {
-            if (direction === 'random') {
-                const randomScene = scenes.random[Math.floor(Math.random() * scenes.random.length)];
-                document.body.style.backgroundImage = randomScene;
-            } else {
-                document.body.style.backgroundImage = scenes[direction];
+        const questions = {
+          harry: [
+            {
+              question: "Хто викладає зілля?",
+              answers: ["Снейп", "Дамблдор", "Герміона"],
+              correct: 0
+            },
+            {
+              question: "Як звати сову Гаррі?",
+              answers: ["Гедвіг", "Сніжинка", "Нора"],
+              correct: 0
+            },
+            {
+              question: "Хто був лордом темряви?",
+              answers: ["Волдеморт", "Гаррі", "Гегрід"],
+              correct: 0
             }
+          ],
+          other: [
+            {
+              question: "Яка столиця Франції?",
+              answers: ["Париж", "Лондон", "Берлін"],
+              correct: 0
+            },
+            {
+              question: "Який колір неба?",
+              answers: ["Синій", "Зелений", "Червоний"],
+              correct: 0
+            },
+            {
+              question: "2 + 2 = ?",
+              answers: ["4", "3", "5"],
+              correct: 0
+            }
+          ]
+        };
+      
+        let currentQuestion = 0;
+        let currentQuiz = 'harry';
+        let correctAnswersCount = 0;
+      
+        function showQuestion() {
+          const q = questions[currentQuiz][currentQuestion];
+          document.getElementById('question').textContent = q.question;
+      
+          document.querySelectorAll('.answer').forEach((btn, idx) => {
+            btn.textContent = q.answers[idx];
+            btn.disabled = false;
+            btn.style.backgroundColor = '#eee';
+            btn.onclick = () => handleAnswer(idx, q.correct);
+          });
         }
-    </script>
-
-  <div class="container">
-    <h1>Сцена <span id="scene-number">1</span>: Початок</h1>
-    <div id="scene"></div>
-  </div>
-
-  <script src="script.js"></script>
-  <script>
-    startScene(); // Запускаємо першу сцену при завантаженні
-  </script>
-</body>
-</html>
-
+      
+        function handleAnswer(index, correctIndex) {
+          const buttons = document.querySelectorAll('.answer');
+      
+          buttons.forEach((btn, i) => {
+            btn.disabled = true;
+            if (i === correctIndex) {
+              btn.style.backgroundColor = '#4CAF50'; // зелений для правильної
+            } else if (i === index) {
+              btn.style.backgroundColor = '#f44336'; // червоний для неправильної
+            }
+          });
+      
+          if (index === correctIndex) {
+            correctAnswersCount++;
+          }
+      
+          setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < questions[currentQuiz].length) {
+              showQuestion();
+            } else {
+                const quizContainer = document.getElementById('quiz-container');
+                    quizContainer.innerHTML = ` 
+                        <div class="result-block">
+                            <h2 class="result-title">Тест завершено!</h2>
+                            <p class="result-score">Правильних відповідей: ${correctAnswersCount} з ${questions[currentQuiz].length}</p>
+                            <button class="back-btn" onclick="returnToMain()">Повернутись на головну</button>
+                        </div>
+                `;
+            }
+          }, 1000);
+        }
+      
+        function startQuiz(quizId) {
+          currentQuiz = quizId;
+          currentQuestion = 0;
+          correctAnswersCount = 0;
+          document.getElementById('main').style.display = 'none';
+          const quizContainer = document.getElementById('quiz-container');
+          quizContainer.style.display = 'flex';
+          showQuestion();
+        }
+      
+        function returnToMain() {
+          document.getElementById('quiz-container').style.display = 'none';
+          document.getElementById('main').style.display = 'flex';
+        }
+      
+        document.querySelectorAll('.join-btn').forEach(button => {
+          button.addEventListener('click', e => {
+            e.preventDefault();
+            const quizId = button.dataset.quiz;
+            startQuiz(quizId);
+          });
+        });
+      </script>
+    </body>
+    </html>
