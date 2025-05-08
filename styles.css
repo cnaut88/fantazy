@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Georgia', serif;
+    color: #fff;
+    text-shadow: 0 0 5px #000;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 80px auto;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  #scene p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+  
+  .initial {
+    font-size: 2rem;
+    color: #6be94d;
+    font-weight: bold;
+  }
+  
+  .choices {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  button {
+    background: #2c3e50;
+    color: #fff;
+    border: 2px solid #16a085;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background: #16a085;
+    transform: scale(1.05);
+  }
+  

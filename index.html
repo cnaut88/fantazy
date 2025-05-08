@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Темна Вежа: Подорож</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+            transition: background-image 1s ease;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button onclick="changeScene('left')">Повернути на ліво</button>
+        <button onclick="changeScene('right')">Повернути на право</button>
+        <button onclick="changeScene('random')">Підкинути монету</button>
+    </div>
+
+    <script>
+        const scenes = {
+            left: 'url("left_path_image.jpg")',
+            right: 'url("right_path_image.jpg")',
+            random: [
+                'url("left_path_image.jpg")',
+                'url("right_path_image.jpg")',
+                'url("forest_image.jpg")',
+                'url("castle_image.jpg")'
+            ]
+        };
+
+        function changeScene(direction) {
+            if (direction === 'random') {
+                const randomScene = scenes.random[Math.floor(Math.random() * scenes.random.length)];
+                document.body.style.backgroundImage = randomScene;
+            } else {
+                document.body.style.backgroundImage = scenes[direction];
+            }
+        }
+    </script>
+
+  <div class="container">
+    <h1>Сцена <span id="scene-number">1</span>: Початок</h1>
+    <div id="scene"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    startScene(); // Запускаємо першу сцену при завантаженні
+  </script>
+</body>
+</html>
+
