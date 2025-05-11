@@ -4,145 +4,167 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MystQuiz</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" sizes="192x192" href="img/logo.png">
 </head>
-<header>
+<body>
+<header class="dark-fantasy-header">
+  <div class="logo">
+    <img src="img/logo.png" alt="MystQuiz Logo" />
     <h1>MystQuiz</h1>
+  </div>
+  <div class="search-box">
+  <input type="text" id="quiz-search" placeholder="Пошук квізів..." />
+</div>
+<a href="login.html">
+  <button class="register-btn">Увійти в магічний сайт</button>
+</a>
 </header>
 
-<div class="main-container" id="main">
-    <!-- Гаррі Поттер -->
-    <section class="quiz-section">
-        <img src="https://upload.wikimedia.org/wikipedia/en/d/d7/Harry_Potter_character_poster.jpg" alt="Гаррі Поттер">
-        <button class="join-btn" data-quiz="harry">Приєднатися</button>
-        <div class="content">
-            <h2>Гаррі Поттер</h2>
-            <p>Хлопчик-чарівник, який боровся з Волдемортом і врятував магічний світ.</p>
-        </div>
-    </section>
-</div>
-<div class="quiz-container" id="quiz-container">
-    <div class="quiz-background">
-        <h2 id="quiz-title">Тест</h2>
-        <div class="quiz-content">
-            <div id="question" class="question">Питання...</div>
-            <div class="answers">
-                <button class="answer" onclick="nextQuestion(0)">Відповідь 1</button>
-                <button class="answer" onclick="nextQuestion(1)">Відповідь 2</button>
-                <button class="answer" onclick="nextQuestion(2)">Відповідь 3</button>
-            </div>
-        </div>
-        </div>
+<div id="overlay"></div>
+
+<div class="main-container" id="main1">
+  <div id="question-box"></div>
+  <div id="question-number"></div> 
+  <!-- Гаррі Поттер -->
+  <section class="quiz-section">
+    <img src="img/Harry Potter Hogwarts castle scene.jpg" alt="Гаррі Поттер">
+    <button class="join-btn" data-quiz="harry">Приєднатися</button>
+    <div class="content">
+      <h2>Гаррі Поттер</h2>
+      <p>Тест на знання всесвіту Гаррі Поттера.</p>
     </div>
-    <script>
-        const questions = {
-          harry: [
-            {
-              question: "Хто викладає зілля?",
-              answers: ["Снейп", "Дамблдор", "Герміона"],
-              correct: 0
-            },
-            {
-              question: "Як звати сову Гаррі?",
-              answers: ["Гедвіг", "Сніжинка", "Нора"],
-              correct: 0
-            },
-            {
-              question: "Хто був лордом темряви?",
-              answers: ["Волдеморт", "Гаррі", "Гегрід"],
-              correct: 0
-            }
-          ],
-          other: [
-            {
-              question: "Яка столиця Франції?",
-              answers: ["Париж", "Лондон", "Берлін"],
-              correct: 0
-            },
-            {
-              question: "Який колір неба?",
-              answers: ["Синій", "Зелений", "Червоний"],
-              correct: 0
-            },
-            {
-              question: "2 + 2 = ?",
-              answers: ["4", "3", "5"],
-              correct: 0
-            }
-          ]
-        };
-      
-        let currentQuestion = 0;
-        let currentQuiz = 'harry';
-        let correctAnswersCount = 0;
-      
-        function showQuestion() {
-          const q = questions[currentQuiz][currentQuestion];
-          document.getElementById('question').textContent = q.question;
-      
-          document.querySelectorAll('.answer').forEach((btn, idx) => {
-            btn.textContent = q.answers[idx];
-            btn.disabled = false;
-            btn.style.backgroundColor = '#eee';
-            btn.onclick = () => handleAnswer(idx, q.correct);
-          });
-        }
-      
-        function handleAnswer(index, correctIndex) {
-          const buttons = document.querySelectorAll('.answer');
-      
-          buttons.forEach((btn, i) => {
-            btn.disabled = true;
-            if (i === correctIndex) {
-              btn.style.backgroundColor = '#4CAF50'; // зелений для правильної
-            } else if (i === index) {
-              btn.style.backgroundColor = '#f44336'; // червоний для неправильної
-            }
-          });
-      
-          if (index === correctIndex) {
-            correctAnswersCount++;
-          }
-      
-          setTimeout(() => {
-            currentQuestion++;
-            if (currentQuestion < questions[currentQuiz].length) {
-              showQuestion();
-            } else {
-                const quizContainer = document.getElementById('quiz-container');
-                    quizContainer.innerHTML = ` 
-                        <div class="result-block">
-                            <h2 class="result-title">Тест завершено!</h2>
-                            <p class="result-score">Правильних відповідей: ${correctAnswersCount} з ${questions[currentQuiz].length}</p>
-                            <button class="back-btn" onclick="returnToMain()">Повернутись на головну</button>
-                        </div>
-                `;
-            }
-          }, 1000);
-        }
-      
-        function startQuiz(quizId) {
-          currentQuiz = quizId;
-          currentQuestion = 0;
-          correctAnswersCount = 0;
-          document.getElementById('main').style.display = 'none';
-          const quizContainer = document.getElementById('quiz-container');
-          quizContainer.style.display = 'flex';
-          showQuestion();
-        }
-      
-        function returnToMain() {
-          document.getElementById('quiz-container').style.display = 'none';
-          document.getElementById('main').style.display = 'flex';
-        }
-      
-        document.querySelectorAll('.join-btn').forEach(button => {
-          button.addEventListener('click', e => {
-            e.preventDefault();
-            const quizId = button.dataset.quiz;
-            startQuiz(quizId);
-          });
-        });
-      </script>
-    </body>
-    </html>
+  </section>
+  <!-- Зоряні війни -->
+  <section class="quiz-section">
+    <img src="img/Star Wars, Millennium Falcon.jpg" alt="Зоряні війни">
+    <button class="join-btn" data-quiz="starwars">Приєднатися</button>
+    <div class="content">
+      <h2>Зоряні війни</h2>
+      <p>Тест на знання всесвіту Зоряних воїн.</p>
+    </div>
+  </section>
+  <!-- Володар Перснів -->
+  <section class="quiz-section">
+    <img src="img/Gondor Lord of the Rings.jpg" alt="Володар Перснів">
+    <button class="join-btn" data-quiz="lotr">Приєднатися</button>
+    <div class="content">
+      <h2>Володар Перснів</h2>
+      <p>Тест на знання всесвіту Володаря Перснів.</p>
+    </div>
+  </section>
+</div>
+<div class="main-container" id="main2">
+  <div id="question-box"></div>
+  <div id="question-number"></div> 
+  <!-- Хроніки Нарнії -->
+  <section class="quiz-section">
+    <img src="img/chronicles-narnia-silver-chair-movie.jpg" alt="Хроніки Нарнії">
+    <button class="join-btn" data-quiz="narnia">Приєднатися</button>
+    <div class="content">
+      <h2>Хроніки Нарнії</h2>
+      <p>Тест на знання всесвіту Нарнії.</p>
+    </div>
+  </section>
+  <!-- Темна вежа -->
+  <section class="quiz-section">
+    <img src="img/Dark Tower Roland desert.jpg" alt="Темна вежа">
+    <button class="join-btn" data-quiz="darktower">Приєднатися</button>
+    <div class="content">
+      <h2>Темна вежа</h2>
+      <p>Тест на знання всесвіту Темної вежі.</p>
+    </div>
+  </section>
+  <!-- Відьмак -->
+  <section class="quiz-section">
+    <img src="img/Geralt of Rivia sword.jpg" alt="Відьмак">
+    <button class="join-btn" data-quiz="witcher">Приєднатися</button>
+    <div class="content">
+      <h2>Відьмак</h2>
+      <p>Тест на знання всесвіту Відьмака.</p>
+    </div>
+  </section>
+</div>
+
+<div class="quiz-container" id="quiz-container">
+  <div class="quiz-background">
+    <h2 id="quiz-title">Питання: 1/10</h2> 
+    <div id="timer">00:00</div> 
+    <div class="quiz-content">
+      <div id="question">Питання...</div>
+      <div class="answers">
+        <button class="answer">Відповідь 1</button>
+        <button class="answer">Відповідь 2</button>
+        <button class="answer">Відповідь 3</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer" id="footer">
+  <div class="footer-container">
+    <div class="footer-subscribe">
+      <h2>МІСТИШ СВОЇ ЧАРІ?</h2>
+      <p>Поділися своїми думками, враженнями чи таємними знаннями з нами!</p>
+      <form action="https://formspree.io/f/mgvagjzk" method="POST">
+        <label>
+            <input type="email" placeholder="Твоя таємна адреса" name="email" required>
+        </label>
+        <label>
+            <textarea name="message" placeholder="Напиши нам послання з іншого світу" required></textarea>
+        </label>
+        <button type="submit">Відправити послання</button>
+      </form>
+      <div class="social-icons">
+        <a href="https://instagram.com" target="_blank">
+          <img src="img/free-icon-instagram-4138124.png" alt="Instagram" class="social-icon">
+        </a>
+        <a href="https://Youtube.com/" target="_blank">
+          <img src="img/Youtube1.png" alt="Youtube" class="social-icon">
+        </a>
+        <a href="https://facebook.com" target="_blank">
+          <img src="img/free-icon-facebook-174848.png" alt="Facebook" class="social-icon">
+        </a>
+        <a href="https://pinterest.com" target="_blank">
+          <img src="img/pinterest3.png" alt="Pinterest" class="social-icon">
+        </a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div>
+        <h3>ЗАЛАШТУЙ СВОЇ ЗАКЛАДИНКИ</h3>
+        <ul>
+          <li><a href="#">Відвідай Королівський магазин</a></li>
+          <li><a href="#">Магія продуктів</a></li>
+          <li><a href="#">Напої для воїнів</a></li>
+          <li><a href="#">Чарівні шоти</a></li>
+          <li><a href="#">Таємні добавки</a></li>
+          <li><a href="#">Мікси для чаклунів</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>ЗА ЛАБІРИНТОМ</h3>
+        <ul>
+          <li><a href="#">Чому ми — ваші союзники</a></li>
+          <li><a href="#">Про стародавні землі</a></li>
+          <li><a href="#">Блог мудреців</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>ЗАХИСТ ТА ДОПОМОГА</h3>
+        <ul>
+          <li><a href="#">Зв'язок з магістратом</a></li>
+          <li><a href="#">Де знайти магічні артефакти</a></li>
+          <li><a href="#">Чарівні FAQ</a></li>
+          <li><a href="#">Захист від темних сил</a></li>
+          <li><a href="#">Закон про магічні поставки</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Усі права захищено | <a href="#">Політика таємної магії</a> | <a href="#">Умови використання чарами</a> | <a href="#">Повернення магічних предметів</a> | <a href="#">Контакти на чарівну пошту</a></p>
+  </div>
+</footer>
+<script src="script/script.js"></script>
+</body>
+</html>
